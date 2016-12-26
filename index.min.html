@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Pocket Cube - Aditya Gupta</title>
+<script src=https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js></script>
+<script src=https://code.jquery.com/jquery-3.1.1.min.js integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin=anonymous></script>
+<link rel=stylesheet href=https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css integrity=sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi crossorigin=anonymous>
+<link rel=stylesheet type=text/css href=bootstrap-colorselector.css />
+<script src=bootstrap-colorselector.js></script>
+<script src=https://npmcdn.com/bootstrap@4.0.0-alpha.5/dist/js/bootstrap.min.js></script>
+</head>
+<body onload=start()>
+<div class=container-fluid>
+<div class=row>
+<center>
+<h1 class=display-4>2&#215;2&#215;2 Rubik's Cube / Pocket Cube Visualizer and Solver</h1></center>
+<hr>
+<div class=col-xs-6 style=min-width:500px>
+<center>
+<canvas id=rubix-surface class=rounded width=500 height=500>
+Your browser doesn't support HTML5
+</canvas>
+</center>
+<hr>
+<div class=container>
+<div class=row>
+<div class=col-xs-6>
+<center>
+<i id=fps class=lead>FPS : 0</i>
+</center>
+</div>
+<button type=button class="btn btn-info col-xs-6" onclick=resetCube()>Reset Colors</button>
+</div>
+</div>
+<hr>
+</div>
+<div class=col-xs-6>
+<center>
+<div class=display-4>
+Perform Moves.
+</div>
+</center>
+<center>
+<button type=button class="btn btn-secondary" onclick=do_L()>L</button>
+<button type=button class="btn btn-secondary" onclick=do_LD()>L'</button>
+<button type=button class="btn btn-secondary" onclick=do_R()>R</button>
+<button type=button class="btn btn-secondary" onclick=do_RD()>R'</button>
+<button type=button class="btn btn-secondary" onclick=do_U()>U</button>
+<button type=button class="btn btn-secondary" onclick=do_UD()>U'</button>
+<button type=button class="btn btn-secondary" onclick=do_D()>D</button>
+<button type=button class="btn btn-secondary" onclick=do_DD()>D'</button>
+<button type=button class="btn btn-secondary" onclick=do_F()>F</button>
+<button type=button class="btn btn-secondary" onclick=do_FD()>F'</button>
+<button type=button class="btn btn-secondary" onclick=do_B()>B</button>
+<button type=button class="btn btn-secondary" onclick=do_BD()>B'</button>
+</center>
+<hr>
+<div class=input-group>
+<input type=text class=form-control id=movement placeholder="Enter Movement Codes Here. e.g. RLU'FB (Case Insensitive) and then press Perform.">
+<span class=input-group-btn>
+<button class="btn btn-success" type=button id=movement-button onclick=perform()>
+Perform
+</button>
+</span>
+<script>$("#movement").keyup(function(a){if(a.keyCode==13){$("#movement-button").click()}});var perform=function(){var c=document.getElementById("movement").value;if(/([^lrudfbLRUDFB'])/gi.test(c)){var b=String(c).match(/[^lrudfbLRUDFB']/gi);$("#info").text((b.length>1?"(":"")+b+(b.length>1?") ":" ")+(b.length>1?"are":"is an")+" invalid move"+(b.length>1?"s":"")+", Use any case L,R,U,D,F,B and possibly a (').").addClass("alert-danger").removeClass("alert-success alert-info")}else{$("#info").text("Successfully performed the given moves!").addClass("alert-success").removeClass("alert-info alert-danger");var b=String(c).match(/[lrudfbLRUDFB]'*/gi);for(var a=0;a<b.length;a++){actionQueue.push(b[a].toUpperCase())}}};</script>
+</div>
+<center>
+<div class=display-4>
+Input Cube State.
+</div>
+</center>
+<center>
+<table>
+<tr>
+<td></td>
+<td></td>
+<td>
+<select id=colorselector-0>
+</select>
+</td>
+<td>
+<select id=colorselector-1>
+</select>
+</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>
+<select id=colorselector-2>
+</select>
+</td>
+<td>
+<select id=colorselector-3>
+</select>
+</td>
+</tr>
+<tr>
+<td>
+<select id=colorselector-4>
+</select>
+</td>
+<td>
+<select id=colorselector-5>
+</select>
+</td>
+<td>
+<select id=colorselector-8>
+</select>
+</td>
+<td>
+<select id=colorselector-9>
+</select>
+</td>
+<td>
+<select id=colorselector-12>
+</select>
+</td>
+<td>
+<select id=colorselector-13>
+</select>
+</td>
+<td>
+<select id=colorselector-16>
+</select>
+</td>
+<td>
+<select id=colorselector-17>
+</select>
+</td>
+</tr>
+<tr>
+<td>
+<select id=colorselector-6>
+</select>
+</td>
+<td>
+<select id=colorselector-7>
+</select>
+</td>
+<td>
+<select id=colorselector-10>
+</select>
+</td>
+<td>
+<select id=colorselector-11>
+</select>
+</td>
+<td>
+<select id=colorselector-14>
+</select>
+</td>
+<td>
+<select id=colorselector-15>
+</select>
+</td>
+<td>
+<select id=colorselector-18>
+</select>
+</td>
+<td>
+<select id=colorselector-19>
+</select>
+</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>
+<select id=colorselector-20>
+</select>
+</td>
+<td>
+<select id=colorselector-21>
+</select>
+</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>
+<select id=colorselector-22>
+</select>
+</td>
+<td>
+<select id=colorselector-23>
+</select>
+</td>
+</tr>
+</table>
+</center>
+<hr>
+<div class=container-fluid>
+<div class=row>
+<button type=button class="btn btn-primary col-xs-3 offset-xs-1" onclick=loadColors()>Apply Input Colors</button>
+<button type=button class="btn btn-success col-xs-2 offset-xs-1" onclick=solve()>Solve!</button>
+<button type=button class="btn btn-info col-xs-3 offset-xs-1" onclick=resetInput()>Reset</button>
+</div>
+<script>function resetInput(){for(var a=0;a<4;a++){$("#colorselector-"+a).colorselector("setValue","2");$("#colorselector-"+(4+a)).colorselector("setValue","3");$("#colorselector-"+(8+a)).colorselector("setValue","1");$("#colorselector-"+(12+a)).colorselector("setValue","5");$("#colorselector-"+(16+a)).colorselector("setValue","6");$("#colorselector-"+(20+a)).colorselector("setValue","4")}}$(document).ready(function(){for(var a=0;a<24;a++){$("#colorselector-"+a).append('<option value="1" data-color="#FFFF00">yellow</option><option value="2" data-color="#FF0000">red</option><option value="3" data-color="#04ff00">green</option><option value="4" data-color="#ff7200">orange</option><option value="5" data-color="#0000FF">blue</option><option value="6" data-color="#cecece">white</option>');$("#colorselector-"+a).colorselector()}resetInput()});</script>
+</div>
+<hr>
+<div class=alert role="alert alert-info" id=info>
+Nothing to Do.
+</div>
+<hr>
+<center>
+<div class=display-4>
+Help
+</div>
+<p>
+<b>L</b>, <b>R</b>, <b>U</b>, <b>D</b>, <b>F</b>, <b>B</b> stand for <b>Left</b>, <b>Right</b>, <b>Up</b>, <b>Down</b>, <b>Front</b>, <b>Back</b> according to <a href=http://rubiks.wikia.com/wiki/Notation>Singmaster notation</a> and (') deontes an anticlockwise turn. Use <b>W</b>-<b>A</b>-<b>S</b>-<b>D</b> and <b>Q</b>-<b>E</b> keys or click and drag by mouse to move.
+</p>
+</center>
+<div id=HCB_comment_box><a href=http://www.htmlcommentbox.com>HTML Comment Box</a> is loading comments...</div>
+<link rel=stylesheet type=text/css href="//www.htmlcommentbox.com/static/skins/bootstrap/twitter-bootstrap.css?v=0" />
+<script type=text/javascript id=hcb>if(!window.hcb_user){hcb_user={}}(function(){var c=document.createElement("script"),a=hcb_user.PAGE||(""+window.location).replace(/'/g,"%27"),b="//www.htmlcommentbox.com";c.setAttribute("type","text/javascript");c.setAttribute("src",b+"/jread?page="+encodeURIComponent(a).replace("+","%2B")+"&mod=%241%24wq1rdBcg%24Y9VsLkEDVFzqGSN%2FMxVJC0&opts=16862&num=10&ts=1482508279707");if(typeof c!="undefined"){document.getElementsByTagName("head")[0].appendChild(c)}})();</script>
+</div>
+</div>
+</div>
+<script src=out/min.js></script>
+</body>
+</html>
