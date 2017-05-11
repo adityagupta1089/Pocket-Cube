@@ -1,5 +1,7 @@
 # Pocket-Cube
 Minified (CSS/JS/HTML) version of a pocket cube (2x2x2 Rubik's Cube). Visualizer and Solver.
+## Screenshot
+![Screenshot](screenshot.png)
 # Help
 - Use W-A-S-D and Q-E to move the cube, or use mouse click and drag.
 - 12 Buttons (L/L'/R...) for rotating the cube according to Singmaster's Notation relative to you!
